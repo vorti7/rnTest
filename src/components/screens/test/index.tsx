@@ -1,9 +1,11 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import BackgroundTimer from 'react-native-background-timer';
 
 const TestScreen = () => {
+
+    const [ showText, setShowText ] = useState("")
 
     const backgroundTimerFunction = () => {
         console.log("Background timer")
@@ -22,7 +24,10 @@ const TestScreen = () => {
                     username : "emeraldsanto",
                     languages : ["fr", "en", "de"]
                 })
-            ).then((res) => {console.log(res)});
+            ).then((res) => {
+                console.log(res)
+                setShowText(JSON.stringify(res))
+            });
         } catch (error) {
         }
     }
@@ -38,7 +43,10 @@ const TestScreen = () => {
                         username : "emeraldsanto",
                         languages : ["fr", "en", "de"]
                     })
-                ).then((res) => {console.log(res)});
+                ).then((res) => {
+                    console.log(res)
+                    setShowText(JSON.stringify(res))
+                });
             },5000);
         } catch (error) {
         }
@@ -58,10 +66,14 @@ const TestScreen = () => {
         }
     }
 
+    const clearData = () => {
+        setShowText("")
+    }
+
     return (
         <View>
             <Text>
-                This is test
+                {showText}
             </Text>
             <Button
                 title="Timer test"
@@ -85,6 +97,12 @@ const TestScreen = () => {
                 title="Test error"
                 onPress={() => {
                     storeTestDataWithTimeout()
+                }}
+            />
+            <Button
+                title="Clear Data"
+                onPress={() => {
+                    clearData()
                 }}
             />
         </View>
